@@ -21,7 +21,7 @@
 
 {% for products in products_list %}
 <div>
-  <h2><a href="{% url 'main:show_products' products.id %}">{{ products.title }}</a></h2>
+  <h2><a href="{% url 'main:show_products' products.id %}">{{ products.name }}</a></h2>
 
   <p><b>{{ products.get_category_display }}</b>| 
     <b>{{ products.brand }}</b></p>

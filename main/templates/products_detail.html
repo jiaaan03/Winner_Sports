@@ -5,7 +5,9 @@
 <h1>{{ products.name }}</h1>
 <p>
     <b>{{ products.get_category_display }}</b>
-    <b>{{ products.brand }}</b></p>
+    <b>{{ products.brand }}</b>
+    <br>
+    <b> Rp{{ products.price }}</b></p>
     
 {% if products.thumbnail %}
 <img src="{{ products.thumbnail }}" alt="Products thumbnail" width="300">
