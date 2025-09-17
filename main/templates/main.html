@@ -11,7 +11,10 @@
 
 <a href="{% url 'main:create_products' %}">
   <button>+ Add Products</button>
+<a href="{% url 'main:logout' %}">
+  <button>Logout</button>
 </a>
+<h5>Sesi terakhir login: {{ last_login }}</h5>
 
 <hr>
 
@@ -23,8 +26,10 @@
 <div>
   <h2><a href="{% url 'main:show_products' products.id %}">{{ products.name }}</a></h2>
 
-  <p><b>{{ products.get_category_display }}</b>| 
-    <b>{{ products.brand }}</b></p>
+  <p><b>{{ products.get_category_display }}
+    <b> | Brand: {{ products.brand }}</b>
+    <br>
+    <b> Rp{{ products.price }}</b></p>
 
   {% if products.thumbnail %}
   <img src="{{ products.thumbnail }}" alt="thumbnail" width="150" height="100">
