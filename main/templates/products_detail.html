@@ -4,7 +4,8 @@
 
 <h1>{{ products.name }}</h1>
 <p>
-    <b>{{ products.get_category_display }}
+    <b>{{ products.get_category_display }}</b>{% if products.is_featured %} | 
+    <b>Featured</b>{% endif %} | <i>{{ products.created_at|date:"d M Y, H:i" }}</i> 
     <b> | Brand: {{ products.brand }}</b>
     <br>
     <b> Rp{{ products.price }}</b></p>
@@ -15,5 +16,11 @@
 {% endif %}
 
 <p>{{ products.description }}</p>
+
+{% if products.user %}
+    <p>Author: {{ products.user.username }}</p>
+{% else %}
+    <p>Author: Anonymous</p>
+{% endif %}
 
 {% endblock content %}

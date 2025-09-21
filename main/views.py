@@ -16,6 +16,12 @@ from django.urls import reverse
 # Create your views here.
 @login_required(login_url='/login')
 def show_main(request):
+    filter_type = request.GET.get("filter", "all")  # default 'all'
+
+    if filter_type == "all":
+        products_list = Products.objects.all()
+    else:
+        products_list = Products.objects.filter(user=request.user)
     products_list = Products.objects.all()
     pilihan_kategori = request.GET.get('category')
     pilihan_brand = request.GET.get('brand')
@@ -43,7 +49,9 @@ def create_products(request):
     form = ProductsForm(request.POST or None)
 
     if form.is_valid() and request.method == "POST":
-        form.save()
+        news_entry = form.save(commit = False)
+        news_entry.user = request.user
+        news_entry.save()
         return redirect('main:show_main')
 
     context = {'form': form}

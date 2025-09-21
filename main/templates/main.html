@@ -15,8 +15,14 @@
   <button>Logout</button>
 </a>
 <h5>Sesi terakhir login: {{ last_login }}</h5>
-
 <hr>
+
+<a href="?filter=all">
+    <button type="button">All Products</button>
+</a>
+<a href="?filter=my">
+    <button type="button">My Products</button>
+</a> 
 
 {% if not products_list %}
 <p>Belum ada data item pada football shop.</p>
@@ -25,8 +31,8 @@
 {% for products in products_list %}
 <div>
   <h2><a href="{% url 'main:show_products' products.id %}">{{ products.name }}</a></h2>
-
-  <p><b>{{ products.get_category_display }}
+  <p><b>{{ products.get_category_display }}</b>{% if products.is_featured %} | 
+    <b>Featured</b>{% endif %} | <i>{{ products.created_at|date:"d M Y H:i" }}</i>
     <b> | Brand: {{ products.brand }}</b>
     <br>
     <b> Rp{{ products.price }}</b></p>
@@ -36,7 +42,7 @@
   <br />
   {% endif %}
 
-  <p>{{ products.content|truncatewords:25 }}...</p>
+  <p>{{ products.description|truncatewords:25 }}...</p>
 
   <p><a href="{% url 'main:show_products' products.id %}"><button>Read More</button></a></p>
 </div>
