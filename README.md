@@ -26,3 +26,16 @@ tugas 3
 ![alt text](<Screenshot 2025-09-16 003339.png>)
 
 ![alt text](<Screenshot 2025-09-16 003408.png>)
+
+Tugas 4:
+1. Django AuthenticationForm itu sebagai formulir bawaan dari djangoo dan dibuat untuk memvalidasi username dan password yang diinput oleh user. Kelebihannya yaitu keamanannya sudah terjaga dan cara menggunakannya juga mudah. Kekurangannya yaitu fungsi nya terbatas jadi hanya untuk proses login saja dan formulir ini juga di default harus memerlukan username ketika login
+
+2. Autentikasi adalah proses memverifikasi seorang oengguna, biasanya melalui username dan password. Otorisasi adalah proses menentukan apa yang bisa user lakukan setelah user masuk, misal jika user masuk sebagai admin maka bisa menghapus data, klo masuk sebagai user basa ya cuman bisa liat aja dan gabisa hapus data. Implememtasi nya yaitu django memeriksa session cookie buat melihat apakah user udah login, jka belum nanti user akan diarahkan ke halaman login. Lalu setelah user diautentikasi, django memeriksa apakah user memiliki izin untuk melihat halaman admin, jika tidak  django akan menolak akses
+
+3. kelebihannya session yaitu data disimpan disisi server bukan di browser pengguna dan tidak ada batasan ukuran data yang disimpan. Kekurangannya yaitu tiap session aktif menggunakan memori server jika banyak yg menggunakan maka akan memperlambat kinerja dan karena session bergantung pada koneksi ke server, data tidak bisa diakses jika user sedang offline
+
+kelebihannya cookies yaitu data cookie disimpan dibrowser pengguna makanya tidak membebani server dan juga dapat diakses ketika offline. Kekurangannya yaitu cookies mudah diakses, dimodifikasi, dan dicuri oleh penyerang siber dan sebagian besar browser membatasi ukuran cookie biasanya hanya sekitar 4KB
+
+4. by default penggunaan cookies tidak sepenuhnya aman karena memiliki risiko potensial yanng harus diwaspadai seperti pencurian cookies, manipulasi data, dan CSRF. Cara menanganinya yaitu django menyediakan mekanisme perlindungan CSRF yang terintegrasi memalalui token unik dan juga django mengkonfigurasi cookie sesi dengan httpOnly dan juga Secure
+
+5. pertama membuat fungsi dan form registrasi, lalu jgn lupa update urls.py ny, berikutnya membuat  fungsi login dan fungsi logout. berikutnya yaitu merestriksi akses halaman main dan products detail. lalu buat cookie supaya data bisa digunakan lalu hubungkan model products dengan user 

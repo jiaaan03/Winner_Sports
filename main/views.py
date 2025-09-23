@@ -40,7 +40,7 @@ def show_main(request):
         'categories': Products.CATEGORY_CHOICES,
         'brands': Products.BRAND_CHOICES,
         'selected_category': pilihan_kategori,
-        'last_login': request.COOKIES.get('last_login', 'Never')
+        'last_login': request.COOKIES.get('last_login', 'Never'),
     }
 
     return render(request, "main.html", context)
