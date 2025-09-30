@@ -1,52 +1,57 @@
-<h1>!!! WELCOMEEEE !!!</h1>
+{% extends 'base.html' %}
+{% load static %}
 
-<h5>App_name: </h5>
-<p>{{ app_name }}</p>
+{% block meta %}
+<title>Winner Sports</title>
+{% endblock meta %}
 
-<h5>Name:</h5>
-<p>{{ name }}</p>
+{% block content %}
+{% include 'navbar.html' %}
+<div class="bg-pink-50 w-full pt-16 min-h-screen">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-<h5>Class:</h5>
-<p>{{ class }}</p>
+    <!-- Header Section -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-pink-900 mb-2">Latest Football Products</h1>
+      <p class="text-pink-600">Stay updated with the latest football products</p>
+    </div>
 
-<a href="{% url 'main:create_products' %}">
-  <button>+ Add Products</button>
-<a href="{% url 'main:logout' %}">
-  <button>Logout</button>
-</a>
-<h5>Sesi terakhir login: {{ last_login }}</h5>
-<hr>
+    <!-- Filter Section -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 bg-white rounded-lg border border-pink-200 p-4">
+      <div class="flex space-x-3 mb-4 sm:mb-0">
+        <a href="?" class="{% if request.GET.filter == 'all' or not request.GET.filter  %} bg-[#470c40] text-white{% else %}bg-white text-pink-700 border border-pink-300{% endif %} px-4 py-2 rounded-md font-medium transition-colors hover:bg-[#470c40] hover:text-white">
+          All Products
+        </a>
+        <a href="?filter=my" class="{% if request.GET.filter == 'my' %} bg-[#470c40] text-white{% else %}bg-white text-pink-700 border border-pink-300{% endif %} px-4 py-2 rounded-md font-medium transition-colors hover:bg-[#470c40] hover:text-white">
+          My Products
+        </a>
+      </div>
+      {% if user.is_authenticated %}
+        <div class="text-sm text-pink-500">
+          Last login: {{ last_login }}
+        </div>
+      {% endif %}
+    </div>
 
-<a href="?filter=all">
-    <button type="button">All Products</button>
-</a>
-<a href="?filter=my">
-    <button type="button">My Products</button>
-</a> 
-
-{% if not products_list %}
-<p>Belum ada data item pada football shop.</p>
-{% else %}
-
-{% for products in products_list %}
-<div>
-  <h2><a href="{% url 'main:show_products' products.id %}">{{ products.name }}</a></h2>
-  <p><b>{{ products.get_category_display }}</b>{% if products.is_featured %} | 
-    <b>Featured</b>{% endif %} | <i>{{ products.created_at|date:"d M Y H:i" }}</i>
-    <b> | Brand: {{ products.brand }}</b>
-    <br>
-    <b> Rp{{ products.price }}</b></p>
-
-  {% if products.thumbnail %}
-  <img src="{{ products.thumbnail }}" alt="thumbnail" width="150" height="100">
-  <br />
-  {% endif %}
-
-  <p>{{ products.description|truncatewords:25 }}...</p>
-
-  <p><a href="{% url 'main:show_products' products.id %}"><button>Read More</button></a></p>
+    <!-- Products Grid -->
+    {% if not products_list %}
+      <div class="bg-white rounded-lg border border-pink-200 p-12 text-center">
+        <div class="w-32 h-32 mx-auto mb-4">
+          <img src="{% static 'image/no-products.png' %}" alt="No products available" class="w-full h-full object-contain">
+        </div>
+        <h3 class="text-lg font-medium text-pink-900 mb-2">No products found</h3>
+        <p class="text-pink-500 mb-6">Be the first to share football products with the community.</p>
+        <a href="{% url 'main:create_products' %}" class="inline-flex items-center px-4 py-2 bg-[#470c40] text-white rounded-md hover:bg-[#470c40]-700 transition-colors">
+          Create Products
+        </a>
+      </div>
+    {% else %}
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for products in products_list %}
+          {% include 'card_products.html' with products=products %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
 </div>
-
-<hr>
-{% endfor %}
-{% endif %}
+{% endblock content %}

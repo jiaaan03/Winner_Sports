@@ -17,12 +17,13 @@ from django.urls import reverse
 @login_required(login_url='/login')
 def show_main(request):
     filter_type = request.GET.get("filter", "all")  # default 'all'
-
+    products_list = Products.objects.all()
+    
     if filter_type == "all":
         products_list = Products.objects.all()
     else:
         products_list = Products.objects.filter(user=request.user)
-    products_list = Products.objects.all()
+    
     pilihan_kategori = request.GET.get('category')
     pilihan_brand = request.GET.get('brand')
 
@@ -34,7 +35,7 @@ def show_main(request):
 
     context = {
         'app_name' : 'Winner Sports',
-        'name': 'Jihan Andita Kresnaputri',
+        'name': request.user.username,
         'class': 'PBP C',
         'products_list': products_list,
         'categories': Products.CATEGORY_CHOICES,
@@ -126,3 +127,21 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse('main:login'))
     response.delete_cookie('last_login')
     return response
+
+def edit_products(request, id):
+    products = get_object_or_404(Products, pk=id)
+    form = ProductsForm(request.POST or None, instance=products)
+    if form.is_valid() and request.method == 'POST':
+        form.save()
+        return redirect('main:show_main')
+
+    context = {
+        'form': form
+    }
+
+    return render(request, "edit_products.html", context)
+
+def delete_products(request, id):
+    products = get_object_or_404(Products, pk=id)
+    products.delete()
+    return HttpResponseRedirect(reverse('main:show_main'))
