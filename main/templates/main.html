@@ -24,6 +24,9 @@
     <button onclick="showModal()" class="inline-flex items-center px-4 py-2 bg-white text-green-600 font-semibold outline outline-2 outline-green-600 outline-offset-[-2px] rounded-md hover:bg-green-600 hover:text-white transition-colors mb-4">
       Create News by AJAX
     </button>
+    <button id="refresh-products-btn" class="inline-flex items-center px-4 py-2 bg-white text-green-600 font-semibold outline outline-2 outline-green-600 outline-offset-[-2px] rounded-md hover:bg-green-600 hover:text-white transition-colors mb-4">
+      Refresh Products
+    </button>
 
     <!-- Filter Section -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 bg-white rounded-lg border border-pink-200 p-4">
@@ -278,6 +281,9 @@ function handleShowMyProductsClick() {
 function initializeProductsPage() {
   showAllProductsButton.addEventListener('click', handleShowAllProductsClick);
   showMyProductsButton.addEventListener('click', handleShowMyProductsClick);
+
+  const refreshButton = document.getElementById('refresh-products-btn');
+  refreshButton.addEventListener('click', fetchProductsFromServer);
   
   fetchProductsFromServer();
 }
