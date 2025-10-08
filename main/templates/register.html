@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 
-{% block meta %}
+{% load static %} {% block meta %}
 <title>Register - Winner Sports</title>
 {% endblock meta %}
 
 {% block content %}
+{% include 'toast.html' %}
 <div class="form-style">
   <div class="min-h-screen bg-gray-50 flex items-center justify-center p-8">
     <div class="max-w-md w-full relative z-10">
@@ -39,7 +40,7 @@
         </div>
       {% endif %}
 
-      <form method="POST" action="" class="space-y-5">
+      <form method="POST" action="" class="space-y-5" id="register-form">
         {% csrf_token %}
         
         <div>
@@ -116,3 +117,35 @@
   </div>
 </div>
 {% endblock content %}
+{% block scripts %}
+<script>
+document.getElementById('register-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const formData = new FormData(form);
+
+    try {
+        const response = await fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            showToast('Success!', data.message, 'success');
+            setTimeout(() => {
+                window.location.href = "{% url 'main:login' %}";
+            }, 2000);
+        } else {
+            const errors = Object.values(data.errors).map(error => error[0]).join('\n');
+            showToast('Registration Failed', errors, 'error');
+        }
+    } catch (error) {
+        showToast('An Error Occurred', 'Please try again later.', 'error');
+    }
+});
+</script>
+{% endblock scripts %}
